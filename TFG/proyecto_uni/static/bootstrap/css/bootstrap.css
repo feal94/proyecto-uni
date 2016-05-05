@@ -4179,7 +4179,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 @media (min-width: 768px) {
   .navbar-header {
-    /*float: left;*/
+    /*float: left;*/ /*Changed this so button would align right*/
     margin-left:5px;
     width:100%;
   }
@@ -4965,7 +4965,7 @@ a.badge:focus {
   padding-bottom: 30px;
   margin-bottom: 30px;
   color: inherit;
-  background-color: #eee;
+  background-color: #f8f8f8; /*Changed from #eee */
 }
 .jumbotron h1,
 .jumbotron .h1 {

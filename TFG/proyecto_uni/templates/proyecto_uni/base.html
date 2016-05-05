@@ -6,6 +6,7 @@
 <title>Proyecto Uni</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.css" %}">
+<link href="{% static "bootstrap/css/simple-sidebar.css" %}" rel="stylesheet">
 </head>
 <header>
 	<nav class="navbar navbar-default">
@@ -24,9 +25,54 @@
 	</nav>
 </header>
 <body>
-	<div id="content">
+	    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+        	<ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#menu-hide" id="menu-hide">
+                       Proyecto Uni
+                    </a>
+                </li>
+               {% block sidebar %}
+        	{% endblock %}
+            </ul>
+        	
+        </div>
+
+    <div id="page-content-wrapper">
+    	<div id="hide">
+    		<a href="#menu-show" class="btn btn-default" id="menu-show" >Mostrar Menú</a>
+    	</div>
+         <div id="content">
 		{% block content %}
 		{% endblock %}
-	</div>
+		</div>
+		
+    </div>    
+
+	<!-- jQuery -->
+    <script src="{% static "bootstrap/js/jquery.js" %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-hide").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").addClass("toggled");
+        $('#hide').css("display", "inline");
+    });
+    </script>
+
+    <script>
+    $("#menu-show").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").removeClass("toggled");
+        $('#hide').css("display", "none");
+    });
+    </script>
 </body>
 </html>
