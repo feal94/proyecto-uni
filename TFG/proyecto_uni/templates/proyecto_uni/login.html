@@ -1,0 +1,28 @@
+{% extends "proyecto_uni/base.html" %}
+
+{% block sidebar %}
+  				<li>
+                    <a href="#">¿Qué estudiar?</a>
+                </li>
+                <li>
+                    <a href="#">Comparador</a>
+                </li>
+                <li>
+                    <a href="#">Contacto</a>
+                </li>
+                <li>
+                    <a href="#">Sobre nosotros</a>
+                </li>       
+{% endblock %}
+
+{% block content %}
+{% include "proyecto_uni/messages.html"%}
+<h1>Iniciar sesión</h1>
+<p>Por favor, complete el formulario para iniciar sesión</p>
+<form action="./login" method="post">
+    {{form.as_p}}
+    {% csrf_token %}
+    <button class="btn btn-primary " type="submit">Iniciar sesión</button>
+</form>
+
+{% endblock %}

@@ -11,6 +11,23 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import json 
+
+from django.core.exceptions import ImproperlyConfigured
+
+with open("secrets.json") as f: 
+    secrets = json.loads(f.read())
+
+def get_secret(setting, secrets=secrets): 
+    ""Get the secret variable or return explicit exception""
+
+    try: 
+        return secrets[setting]
+    except KeyError: 
+        error_msg = "Set the {0} enviroment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+SECRET_KEY = get_secret("SECRET_KEY")
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -18,12 +35,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'lkxqu)t2xly#+jr6)u*$+n)4n3ir##mqu69yydhroo1e#t!g++'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -71,21 +82,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'TFG.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'TFG',
-        'USER': 'alvaro',
-        'PASSWORD': 'Forzadepor94',
-        'HOST': 'localhost', 
-        'PORT': '',
-    }
-
-}
 
 
 # Password validation

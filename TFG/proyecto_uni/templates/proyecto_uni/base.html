@@ -12,11 +12,11 @@
 	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
-	    	<button type="button" class="btn btn-default navbar-btn pull-right">Sign up</button>
-	    	<button type="button" class="btn btn-default navbar-btn pull-right">Sign in</button>
+	    	<button type="button" class="btn btn-default navbar-btn pull-right" onclick=>Sign up</button>
+	    	<button type="button" class="btn btn-default navbar-btn pull-right" onClick="location.href='login'">Sign in</button>
 	    	
 
-	      <a class="navbar-brand" href="#">
+	      <a class="navbar-brand" href="">
 	        <img alt="Brand" src="{% static "images/fic.png" %}" width=5%>
 	        
 	      </a>
@@ -74,5 +74,7 @@
         $('#hide').css("display", "none");
     });
     </script>
+
+</script>
 </body>
 </html>
