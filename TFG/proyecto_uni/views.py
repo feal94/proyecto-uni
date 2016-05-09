@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm
 
-auth=0
 def index(request):
-    return render (request, 'proyecto_uni/index.html')
+	storage = messages.get_messages(request)
+	for message in storage: 
+		messages.add_message(request, message.level, message.message)
+	return render (request, 'proyecto_uni/index.html')
 
 def user_login(request):
 	if request.method == 'GET': 
@@ -23,9 +25,8 @@ def user_login(request):
 			
 			if user is not None: 
 				login(request,user)
-				auth == 1
 				messages.add_message(request, messages.SUCCESS, 'Has iniciado sesión con éxito!')
-				return render (request, 'proyecto_uni/index.html')
+				return HttpResponseRedirect('/proyecto_uni/')
 			else:
 				messages.error(request, "Usuario o contraseña incorrectos")
 				return render(request, 'proyecto_uni/login.html', {'form':LoginForm})

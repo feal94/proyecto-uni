@@ -19,7 +19,7 @@ with open("secrets.json") as f:
     secrets = json.loads(f.read())
 
 def get_secret(setting, secrets=secrets): 
-    ""Get the secret variable or return explicit exception""
+    """Get the secret variable or return explicit exception"""
 
     try: 
         return secrets[setting]

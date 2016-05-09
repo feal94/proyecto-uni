@@ -16,7 +16,7 @@
 	    	<button type="button" class="btn btn-default navbar-btn pull-right" onClick="location.href='login'">Sign in</button>
 	    	
 
-	      <a class="navbar-brand" href="">
+	      <a class="navbar-brand" href="/proyecto_uni">
 	        <img alt="Brand" src="{% static "images/fic.png" %}" width=5%>
 	        
 	      </a>
@@ -46,6 +46,7 @@
     		<a href="#menu-show" class="btn btn-default" id="menu-show" >Mostrar Menú</a>
     	</div>
          <div id="content">
+        {% include "proyecto_uni/messages.html"%}
 		{% block content %}
 		{% endblock %}
 		</div>
