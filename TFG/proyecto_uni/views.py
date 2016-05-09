@@ -2,13 +2,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
-from .forms import LoginForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.views.decorators.http import require_http_methods
+
+from .forms import LoginForm, UserRegistrationForm
+
 
 def index(request):
-	storage = messages.get_messages(request)
-	for message in storage: 
-		messages.add_message(request, message.level, message.message)
 	return render (request, 'proyecto_uni/index.html')
 
 def user_login(request):
@@ -16,7 +17,6 @@ def user_login(request):
 		form = LoginForm()
 		return render (request, 'proyecto_uni/login.html', {'form':form})
 	if request.method == 'POST': 
-		print("Post")
 		form = LoginForm(request.POST)
 
 		if form.is_valid(): 
@@ -35,3 +35,24 @@ def user_login(request):
 			return render(request, 'proyecto_uni/login.html', {'form':LoginForm})
 	else: 
 		return HttpResponse("I'm lost")
+
+@require_http_methods(["GET"])
+def user_logout(request): 
+	logout(request)
+	messages.add_message(request, messages.SUCCESS, 'Has cerrado sesión con éxito!')
+	return HttpResponseRedirect('/proyecto_uni/')
+
+def user_signup(request): 
+	if request.method == 'POST': 
+		user_form = UserRegistrationForm(request.POST)
+		if user_form.is_valid(): 
+			new_user = user_form.save(commit=False)
+			new_user.set_password(
+				user_form.cleaned_data['password'])
+			new_user.save()
+			messages.add_message(request, messages.SUCCESS, 'Usuario creado con éxito!')
+			return HttpResponseRedirect('/proyecto_uni/')
+	else: 
+		user_form = UserRegistrationForm()
+	return render(request,'proyecto_uni/signup.html', {'user_form':user_form})
+

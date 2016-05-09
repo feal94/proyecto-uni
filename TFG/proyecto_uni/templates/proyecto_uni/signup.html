@@ -14,16 +14,14 @@
                     <a href="#">Acerca de nosotros</a>
                 </li>       
 {% endblock %}
-
 {% block content %}
-<h1>Iniciar sesión</h1>
-<p>Por favor, complete el formulario para iniciar sesión</p>
-<form action="./login" method="post">
-    <div class="form-group">
-    {{ form|crispy }}
-    {% csrf_token %}
-    </div>
-    <button class="btn btn-primary " type="submit">Iniciar sesión</button>
+<h1>Crear una nueva cuenta de usuario</h1>
+<p> Por favor, rellene todos los campos </p>
+<form action="./signup" method="post">
+	<div class= "form-group">
+	{{ user_form|crispy }}
+	{% csrf_token %}
+	</div>
+    <button class="btn btn-primary " type="submit">Crear cuenta</button>
 </form>
-
 {% endblock %}

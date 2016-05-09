@@ -12,8 +12,13 @@
 	<nav class="navbar navbar-default">
 	  <div class="container-fluid">
 	    <div class="navbar-header">
-	    	<button type="button" class="btn btn-default navbar-btn pull-right" onclick=>Sign up</button>
-	    	<button type="button" class="btn btn-default navbar-btn pull-right" onClick="location.href='login'">Sign in</button>
+            {% if request.user.is_authenticated %}
+            <button type="button" class="btn btn-default navbar-btn pull-right" onclick="location.href='logout'">Log Out</button>
+            <p class="navbar-text pull-right">Sesión iniciada como {{ request.user.get_username }}</p>
+            {% else %}
+            <button type="button" class="btn btn-default navbar-btn pull-right" onclick="location.href='signup'">Crear usuario</button>
+            <button type="button" class="btn btn-default navbar-btn pull-right" onClick="location.href='login'">Iniciar sesión</button>
+            {% endif %}
 	    	
 
 	      <a class="navbar-brand" href="/proyecto_uni">
