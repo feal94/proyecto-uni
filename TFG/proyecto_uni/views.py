@@ -8,7 +8,10 @@ from django.views.decorators.http import require_http_methods
 
 from .forms import LoginForm, UserRegistrationForm
 
+from .models import Titulaciones
 
+
+@require_http_methods(["GET"])
 def index(request):
 	return render (request, 'proyecto_uni/index.html')
 
@@ -56,3 +59,19 @@ def user_signup(request):
 		user_form = UserRegistrationForm()
 	return render(request,'proyecto_uni/signup.html', {'user_form':user_form})
 
+@require_http_methods(["GET"])
+def about(request):
+	return render(request, 'proyecto_uni/about.html')
+
+@require_http_methods(["GET"])
+def contact(request):
+	return render(request, 'proyecto_uni/contact.html')
+
+@require_http_methods(["GET"])
+def studies(request):
+	uni = request.GET.get('uni', '')
+	if uni != '': 
+		result = Titulaciones.objects.raw('SELECT * FROM titulaciones tit INNER JOIN impartida_en imp ON tit.codigo_titulacion = imp.codigo_titulacion INNER JOIN centros cent ON imp.codigo_centro = cent.codigo_centro WHERE cent.universidad = %s ', [uni]);
+		return render(request, 'proyecto_uni/showstudies.html', {'result':result})
+	else: 
+		return render(request, 'proyecto_uni/studies.html')

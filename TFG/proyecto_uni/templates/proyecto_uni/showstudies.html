@@ -1,0 +1,6 @@
+{% extends "base.html" %} 
+{% block content %}
+{% for foo in result %}
+	<p>{{ foo.nombre }}</p>
+{% endfor %}
+{% endblock %}

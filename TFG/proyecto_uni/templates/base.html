@@ -5,6 +5,7 @@
 
 <title>Proyecto Uni</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="{% static "font-awesome/css/font-awesome.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.css" %}">
 <link href="{% static "bootstrap/css/simple-sidebar.css" %}" rel="stylesheet">
 </head>
@@ -23,6 +24,9 @@
 
 	      <a class="navbar-brand" href="/proyecto_uni">
 	        <img alt="Brand" src="{% static "images/fic.png" %}" width=5%>
+            <div id="hide">
+                <a href="#menu-show" class="btn btn-default" id="menu-show" >Mostrar Menú</a>
+            </div>
 	        
 	      </a>
 	    </div>
@@ -40,16 +44,24 @@
                        Proyecto Uni
                     </a>
                 </li>
-               {% block sidebar %}
-        	{% endblock %}
+                <li>
+                    <a href="studies">¿Qué estudiar?</a>
+                </li>
+                <li>
+                    <a href="#">Comparador</a>
+                </li>
+                <li>
+                    <a href="contact">Contacto</a>
+                </li>
+                <li>
+                    <a href="about">Acerca de nosotros</a>
+                </li>       
             </ul>
         	
         </div>
 
     <div id="page-content-wrapper">
-    	<div id="hide">
-    		<a href="#menu-show" class="btn btn-default" id="menu-show" >Mostrar Menú</a>
-    	</div>
+
          <div id="content">
         {% include "proyecto_uni/messages.html"%}
 		{% block content %}
