@@ -4,10 +4,17 @@
 <head>
 
 <title>Proyecto Uni</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="{% static "font-awesome/css/font-awesome.css" %}">
 <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.css" %}">
-<link href="{% static "bootstrap/css/simple-sidebar.css" %}" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="{% static "bootstrap/css/sidebar-left.css" %}">
+<link rel="stylesheet" href="{% static "bootstrap/css/simple-sidebar.css" %}">
+
+
 </head>
 <header>
 	<nav class="navbar navbar-default">
@@ -17,58 +24,40 @@
             <button type="button" class="btn btn-default navbar-btn pull-right" onclick="location.href='logout'">Log Out</button>
             <p class="navbar-text pull-right">Sesión iniciada como {{ request.user.get_username }}</p>
             {% else %}
-            <button type="button" class="btn btn-default navbar-btn pull-right" onclick="location.href='signup'">Crear usuario</button>
-            <button type="button" class="btn btn-default navbar-btn pull-right" onClick="location.href='login'">Iniciar sesión</button>
+            <button type="button" class="btn btn-default navbar-btn pull-right" onclick="location.href='/proyecto_uni/signup'">Crear usuario</button>
+            <button type="button" class="btn btn-default navbar-btn pull-right" onClick="location.href='/proyecto_uni/login'">Iniciar sesión</button>
             {% endif %}
-	    	
-
-	      <a class="navbar-brand" href="/proyecto_uni">
-	        <img alt="Brand" src="{% static "images/fic.png" %}" width=5%>
-            <div id="hide">
-                <a href="#menu-show" class="btn btn-default" id="menu-show" >Mostrar Menú</a>
-            </div>
-	        
+	    		        
 	      </a>
 	    </div>
 	  </div>
 	</nav>
 </header>
 <body>
-	    <div id="wrapper">
+    <div id="wrapper">
+            <div class="sidebar-left">
 
-        <!-- Sidebar -->
-        <div id="sidebar-wrapper">
-        	<ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    <a href="#menu-hide" id="menu-hide">
-                       Proyecto Uni
-                    </a>
-                </li>
-                <li>
-                    <a href="studies">¿Qué estudiar?</a>
-                </li>
-                <li>
-                    <a href="#">Comparador</a>
-                </li>
-                <li>
-                    <a href="contact">Contacto</a>
-                </li>
-                <li>
-                    <a href="about">Acerca de nosotros</a>
-                </li>       
-            </ul>
-        	
+                <a class="company-logo" href="/proyecto_uni/">TFG</a>
+
+                <div class="sidebar-links">
+                    <a class="link-blue" href="/proyecto_uni/studies"><i class="fa fa-book"></i>¿Qué estudiar?</a>
+                    <a class="link-red" href="#"><i class="fa fa-bar-chart"></i>Comparador</a>
+                    <a class="link-yellow" href="/proyecto_uni/contact"><i class="fa fa-mobile"></i>Contacto</a>
+                    <a class="link-green" href="/proyecto_uni/about"><i class="fa fa-users"></i>Acerca de</a>
+                </div>
+
+            </div>
+       <!-- <div class="container"> -->
+       <div id="page-content-wrapper">          
+            <div id="content">
+                {% include "proyecto_uni/messages.html"%}
+            	{% block content %}
+            	{% endblock %}
+        	</div>
         </div>
-
-    <div id="page-content-wrapper">
-
-         <div id="content">
-        {% include "proyecto_uni/messages.html"%}
-		{% block content %}
-		{% endblock %}
-		</div>
-		
-    </div>    
+        <!-- </div>  --> 
+    </div>
+     
 
 	<!-- jQuery -->
     <script src="{% static "bootstrap/js/jquery.js" %}"></script>
@@ -77,21 +66,24 @@
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
 
     <!-- Menu Toggle Script -->
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
-    $("#menu-hide").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").addClass("toggled");
-        $('#hide').css("display", "inline");
-    });
+
+        $(function () {
+
+            var links = $('.sidebar-links > a');
+
+            links.on('click', function () {
+
+                links.removeClass('selected');
+                $(this).addClass('selected');
+
+            })
+        });
+
     </script>
 
-    <script>
-    $("#menu-show").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").removeClass("toggled");
-        $('#hide').css("display", "none");
-    });
-    </script>
 
 </script>
 </body>

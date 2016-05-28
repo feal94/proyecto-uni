@@ -70,8 +70,12 @@ def contact(request):
 @require_http_methods(["GET"])
 def studies(request):
 	uni = request.GET.get('uni', '')
-	if uni != '': 
-		result = Titulaciones.objects.raw('SELECT * FROM titulaciones tit INNER JOIN impartida_en imp ON tit.codigo_titulacion = imp.codigo_titulacion INNER JOIN centros cent ON imp.codigo_centro = cent.codigo_centro WHERE cent.universidad = %s ', [uni]);
-		return render(request, 'proyecto_uni/showstudies.html', {'result':result})
-	else: 
+	if uni == '': 
 		return render(request, 'proyecto_uni/studies.html')
+	elif uni == 'SUG':
+		result = Titulaciones.objects.raw('SELECT * FROM titulaciones tit INNER JOIN impartida_en imp ON tit.codigo_titulacion = imp.codigo_titulacion INNER JOIN centros cent ON imp.codigo_centro = cent.codigo_centro ORDER BY tit.nombre');
+		return render(request, 'proyecto_uni/showstudies.html', {'result':result})
+	else:
+		result = Titulaciones.objects.raw('SELECT * FROM titulaciones tit INNER JOIN impartida_en imp ON tit.codigo_titulacion = imp.codigo_titulacion INNER JOIN centros cent ON imp.codigo_centro = cent.codigo_centro WHERE cent.universidad = %s ORDER BY tit.nombre', [uni]);
+		return render(request, 'proyecto_uni/showstudies.html', {'result':result})
+	

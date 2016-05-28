@@ -1,6 +1,9 @@
 {% extends "base.html" %} 
 {% block content %}
-{% for foo in result %}
-	<p>{{ foo.nombre }}</p>
-{% endfor %}
+
+<ul class="list-group">
+	{% for foo in result %}
+		<li class="list-group-item"><a href="#" target="_blank">{{ foo.nombre  }} en la {{ foo.universidad }}</a></li>
+	{% endfor %}
+</ul>
 {% endblock %}
