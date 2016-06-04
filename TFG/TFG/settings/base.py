@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for TFG project.
 
@@ -48,6 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'mathfilters',
+    'star_ratings',
     'crispy_forms',
     'proyecto_uni'
 ]

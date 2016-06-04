@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  {% for foo in result %}
+  <ul class="nav nav-tabs">
+    <li role="presentation"><a href="#tab1" >General</a></li>
+    <li role="presentation"><a href="#tab2">Asignaturas</a></li>
+    <li role="presentation"><a href="#tab3">Resultados</a></li>
+  </ul>
+
+  <!-- TAB 1 --> 
+  <div id="tab1">
+    <div class="panel panel-primary">
+    <!-- Default panel contents -->
+    <div class="panel-heading">{{foo.nombre}}</div>
+      <div class="panel-body">
+        <h4>Universidad:</h4>
+        <p>{{ foo.universidad }}</p>
+        <hr class="m-y-2">
+        <h4>Campus:</h4>  
+        <p>{{ foo.campus }}</p>
+        <hr class="m-y-2">
+        <h4>Descripción:</h4>
+        <p>Aquí debería ir la descripción</p>
+        <hr class="m-y-2">
+        <h4>Nota de corte:</h4>
+        <p>{{ foo.nota_corte }}</p>
+        <hr class="m-y-2">
+        <h4>¿Has estudiado esta carrera? Dínos tu valoración:</h4>
+        {% load ratings %}
+        {% ratings rate %} 
+      </div>
+    </div>
+  </div>
+  <!-- TAB 2 -->
+  <div id="tab2">
+    <p>tab2</p>
+  </div>
+
+  <!-- TAB 3 -->
+  <div id="tab3">
+    <div class="panel panel-primary">
+      <div class="panel-heading">{{foo.nombre}}</div>
+        <div class="panel-body">
+        <h4>Media de los indicadores académicos para el estudio:</h4>
+        <ul class="list-inline">
+          <li><span class="label label-success">Aprobados</span></li>
+          <li><span class="label label-danger">Suspensos</span></li>
+          <li><span class="label label-warning">No presentados</span></li>
+        </ul>
+                         
+        <div class="progress left">
+          {% load l10n %}
+          {% load mathfilters %}
+
+          <div class="progress-bar progress-bar-success" style="width: {{foo.rendimiento|unlocalize}}%">
+            {{foo.rendimiento|unlocalize}}%
+          </div>
+          <div class="progress-bar progress-bar-danger" style="width: {{ foo.evaluacion|sub:foo.rendimiento|unlocalize }}%">
+            {{ foo.evaluacion|sub:foo.rendimiento|unlocalize }}%
+          </div>
+          <div class="progress-bar progress-bar-warning" style="width: {{ 100|sub:foo.evaluacion|unlocalize }}%">
+            {{ 100|sub:foo.evaluacion|unlocalize }}%
+          </div>
+
+        </div>
+        <hr class="m-y-2">
+        <h4>Tasa de abandono: </h4>
+        <p>{{foo.abandono}}%</p>
+        <hr class="m-y-2">
+        <h4>Media de la satisfacción global de los estudiantes con el estudio, según las encuestas de evaluación docente: </h4>
+        <p>{{foo.grao_satisfaccion}}</p>
+
+        <hr class="m-y-2">
+        <h4>Media de la satisfacción global de los estudiantes con el estudio, según la puntuación en esta herramienta: </h4>
+        <p id="avg"></p>
+        <script type="text/javascript">
+          var avg_rate = localStorage.getItem('avg'); 
+          document.getElementById("avg").innerHTML = avg_rate; 
+        </script>
+        
+      </div>
+    </div>
+  </div>
+  
+{% endfor %}
+
+{% endblock%}
+
+{% block script%}
+     <script>
+      $(document).ready(function(){
+        $('ul.nav-tabs').each(function(){
+          var $active, $content, $links = $(this).find('a'); 
+          $active = $($links.filter('[href="'+location.hash+'"]')[0] || $links[0]);
+          $active.parent().addClass('active');
+
+          $content = $($active[0].hash);
+
+          $links.not($active).each(function () {
+            $(this.hash).hide();
+          });
+
+          $(this).on('click', 'a', function(e){
+            $active.parent().removeClass('active');
+            $content.hide();
+
+            $active = $(this);
+            $content = $(this.hash);
+
+            $active.parent().addClass('active');
+            $content.show();
+
+            e.preventDefault();
+          });
+        });
+      });
+    </script>
+
+{% endblock %}

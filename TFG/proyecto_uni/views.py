@@ -78,4 +78,17 @@ def studies(request):
 	else:
 		result = Titulaciones.objects.raw('SELECT * FROM titulaciones tit INNER JOIN impartida_en imp ON tit.codigo_titulacion = imp.codigo_titulacion INNER JOIN centros cent ON imp.codigo_centro = cent.codigo_centro WHERE cent.universidad = %s ORDER BY tit.nombre', [uni]);
 		return render(request, 'proyecto_uni/showstudies.html', {'result':result})
-	
+
+@require_http_methods(["GET"])
+def details(request):
+	estudio = request.GET.get('estudio', '')
+	uni = request.GET.get('uni', '')
+	campus = request.GET.get('campus', '')
+	rate = Titulaciones.objects.raw('SELECT ')
+	result = Titulaciones.objects.raw('SELECT * FROM encuestas e INNER JOIN tasas t on e.codigo_titulacion = t.codigo_titulacion INNER JOIN titulaciones tit on t.codigo_titulacion = tit.codigo_titulacion INNER JOIN impartida_en imp ON tit.codigo_titulacion = imp.codigo_titulacion INNER JOIN centros cent ON imp.codigo_centro = cent.codigo_centro WHERE cent.universidad = %s  and tit.nombre = %s and cent.campus =%s', [uni, estudio, campus]);
+	for foo in result: 
+		rate= Titulaciones.objects.get(pk=foo.codigo_titulacion)
+		# asignaturas= Asignaturas.objects.get ('SELECT * from asignaturas INNER JOIN titulaciones on asignaturas.codigo_titulacion = titulaciones.codigo_titulacion where codigo_titulacion = foo.codigo_titulacion'); 
+	return render(request, 'proyecto_uni/details.html', {'result':result, 'rate':rate}) #, 'asignaturas':asignaturas})
+
+

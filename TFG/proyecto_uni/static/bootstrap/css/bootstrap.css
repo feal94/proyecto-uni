@@ -5128,6 +5128,9 @@ a.thumbnail.active {
     background-position: 0 0;
   }
 }
+.left{
+  width: 60%;
+}
 .progress {
   height: 20px;
   margin-bottom: 20px;

@@ -24,14 +24,14 @@
 .sidebar-left a.company-logo {
 	display: block;
 	text-decoration: none;
-	font-family: Cookie, cursive;
+	font-family: 'Indie Flower', cursive;
 	width: 76px;
 	height: 76px;
 	margin: 0 auto;
 	padding: 0;
 	text-align: center;
 	color:  #00000000; /*#ffffff*/	
-	font-size: 28px;
+	font-size: 34px;
 	font-weight: normal;
 	line-height: 2.6;
 	border-radius: 50%;

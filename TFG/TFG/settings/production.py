@@ -7,8 +7,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'TFG',
-        'USER': 'alvaro',
-        'PASSWORD': 'Forzadepor94',
+        'USER': 'dev',
+        'PASSWORD': 'Proyecto_Uni001',
         'HOST': 'localhost', 
         'PORT': '',
     }
@@ -16,6 +16,6 @@ DATABASES = {
 }
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False 
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

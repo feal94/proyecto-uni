@@ -1,20 +1,23 @@
 {% load staticfiles %}
+{% load static %}
 <! DOCTYPE html> 
 <html> 
 <head>
+    <title>Proyecto Uni</title>
 
-<title>Proyecto Uni</title>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="{% static "font-awesome/css/font-awesome.css" %}">
-<link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.css" %}">
-<link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="{% static "bootstrap/css/sidebar-left.css" %}">
-<link rel="stylesheet" href="{% static "bootstrap/css/simple-sidebar.css" %}">
+    <meta charset="utf-8">
 
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" type="text/css" href="{% static "font-awesome/css/font-awesome.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.css" %}">
+    <link rel="stylesheet" href="{% static "bootstrap/css/sidebar-left.css" %}">
+    <link rel="stylesheet" href="{% static "bootstrap/css/simple-sidebar.css" %}">
+    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+
+    <link href='https://fonts.googleapis.com/css?family=Indie+Flower' rel='stylesheet' type='text/css'><link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    
 </head>
 <header>
 	<nav class="navbar navbar-default">
@@ -28,7 +31,6 @@
             <button type="button" class="btn btn-default navbar-btn pull-right" onClick="location.href='/proyecto_uni/login'">Iniciar sesión</button>
             {% endif %}
 	    		        
-	      </a>
 	    </div>
 	  </div>
 	</nav>
@@ -65,7 +67,11 @@
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
 
+    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+
+
     <!-- Menu Toggle Script -->
+
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
@@ -81,10 +87,8 @@
 
             })
         });
-
     </script>
-
-
-</script>
+{% block script %}
+{% endblock %}
 </body>
 </html>
