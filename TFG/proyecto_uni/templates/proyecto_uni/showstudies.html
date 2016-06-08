@@ -3,7 +3,7 @@
 
 <ul class="list-group">
 	{% for foo in result %}
-		<li class="list-group-item"><a href="/proyecto_uni/details?uni={{foo.universidad}}&estudio={{foo.nombre}}&campus={{foo.campus}}" >{{ foo.nombre  }} en el {{ foo.campus }} de la {{ foo.universidad }}</a></li>
+		<li class="list-group-item"><a href="/proyecto_uni/details?uni={{foo.universidad}}&estudio={{foo.nombre_titulacion}}&campus={{foo.campus}}" >{{ foo.nombre_titulacion  }} en el {{ foo.campus }} de la {{ foo.universidad }}</a></li>
 	{% endfor %}
 </ul>
 {% endblock %}

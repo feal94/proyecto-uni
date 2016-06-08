@@ -2,7 +2,6 @@
 
 {% block content %}
 
-  {% for foo in result %}
   <ul class="nav nav-tabs">
     <li role="presentation"><a href="#tab1" >General</a></li>
     <li role="presentation"><a href="#tab2">Asignaturas</a></li>
@@ -13,21 +12,24 @@
   <div id="tab1">
     <div class="panel panel-primary">
     <!-- Default panel contents -->
-    <div class="panel-heading">{{foo.nombre}}</div>
+    <div class="panel-heading">{{info_general.nombre_titulacion}}</div>
       <div class="panel-body">
         <h4>Universidad:</h4>
-        <p>{{ foo.universidad }}</p>
+        <p>{{ info_general.universidad }}</p>
         <hr class="m-y-2">
         <h4>Campus:</h4>  
-        <p>{{ foo.campus }}</p>
+        <p>{{ info_general.campus }}</p>
         <hr class="m-y-2">
+        <h4>Facultad:</h4>  
+        <p>{{ info_general.nombre_centro }}</p>
+        <hr class="m-y-2">        
         <h4>Descripción:</h4>
         <p>Aquí debería ir la descripción</p>
         <hr class="m-y-2">
         <h4>Nota de corte:</h4>
-        <p>{{ foo.nota_corte }}</p>
+        <p>{{ info_general.nota_corte }}</p>
         <hr class="m-y-2">
-        <h4>¿Has estudiado esta carrera? Dínos tu valoración:</h4>
+        <h4>¿Has estudiado esta carrera? Dános tu valoración:</h4>
         {% load ratings %}
         {% ratings rate %} 
       </div>
@@ -35,57 +37,173 @@
   </div>
   <!-- TAB 2 -->
   <div id="tab2">
-    <p>tab2</p>
+    {% if info_asignaturas %}
+    <div class="panel panel-primary">
+    <!-- Default panel contents -->
+      <div class="panel-heading">{{info_general.nombre_titulacion}}</div>
+        <div class="panel-body">
+        <h2 style="color: #337ab7;">Primer curso</h2>
+
+            <table class="table">
+            <thead>
+              <tr>
+                <th>Asignatura</th>
+                <th>Régimen</th>
+                <th>Cuatrimestre</th>
+                <th>Créditos</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for foo in info_asignaturas %}
+                {% if foo.curso ==  1 %}
+                <tr>
+                <td>{{foo.nombre_asignatura}}</td>
+                <td>{{foo.regimen}}</td>
+                <td>{{foo.cuatrimestre}}</td>
+                <td>{{foo.creditos}}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+
+          
+        <hr class="m-y-2">
+        <h2 style="color:#337ab7;">Segundo Curso</h2>
+        <table class="table">
+            <thead>
+              <tr>
+                <th>Asignatura</th>
+                <th>Régimen</th>
+                <th>Cuatrimestre</th>
+                <th>Créditos</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for foo in info_asignaturas %}
+                {% if foo.curso ==  2 %}
+                <tr>
+                <td>{{foo.nombre_asignatura}}</td>
+                <td>{{foo.regimen}}</td>
+                <td>{{foo.cuatrimestre}}</td>
+                <td>{{foo.creditos}}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+        <hr class="m-y-2">
+        <h2 style="color:#337ab7;">Tercer curso</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Asignatura</th>
+                <th>Régimen</th>
+                <th>Cuatrimestre</th>
+                <th>Créditos</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for foo in info_asignaturas %}
+                {% if foo.curso ==  3 %}
+                <tr>
+                <td>{{foo.nombre_asignatura}}</td>
+                <td>{{foo.regimen}}</td>
+                <td>{{foo.cuatrimestre}}</td>
+                <td>{{foo.creditos}}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>    
+        <hr class="m-y-2">
+        <h2 style= "color:#337ab7;">Cuarto curso</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Asignatura</th>
+                <th>Régimen</th>
+                <th>Cuatrimestre</th>
+                <th>Créditos</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for foo in info_asignaturas %}
+                {% if foo.curso ==  4 %}
+                <tr>
+                <td>{{foo.nombre_asignatura}}</td>
+                <td>{{foo.regimen}}</td>
+                <td>{{foo.cuatrimestre}}</td>
+                <td>{{foo.creditos}}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table> 
+
+    {% else %}
+      <p>No hay asignaturas registradas para esta titulación</p>
+    {% endif %}
   </div>
 
   <!-- TAB 3 -->
   <div id="tab3">
+    {% load l10n %}
+    {% load mathfilters %}
     <div class="panel panel-primary">
-      <div class="panel-heading">{{foo.nombre}}</div>
+      <div class="panel-heading">{{info_general.nombre_titulacion}}</div>
         <div class="panel-body">
         <h4>Media de los indicadores académicos para el estudio:</h4>
-        <ul class="list-inline">
-          <li><span class="label label-success">Aprobados</span></li>
-          <li><span class="label label-danger">Suspensos</span></li>
-          <li><span class="label label-warning">No presentados</span></li>
-        </ul>
-                         
-        <div class="progress left">
-          {% load l10n %}
-          {% load mathfilters %}
-
-          <div class="progress-bar progress-bar-success" style="width: {{foo.rendimiento|unlocalize}}%">
-            {{foo.rendimiento|unlocalize}}%
-          </div>
-          <div class="progress-bar progress-bar-danger" style="width: {{ foo.evaluacion|sub:foo.rendimiento|unlocalize }}%">
-            {{ foo.evaluacion|sub:foo.rendimiento|unlocalize }}%
-          </div>
-          <div class="progress-bar progress-bar-warning" style="width: {{ 100|sub:foo.evaluacion|unlocalize }}%">
-            {{ 100|sub:foo.evaluacion|unlocalize }}%
+        {% if info_resultados_academicos == None %}
+          <p>No hay resultados registrados para esta titulación</p>
+        {% else %}
+          <ul class="list-inline">
+            <li><span class="label label-success">Aprobados: {{info_resultados_academicos.rendimiento|unlocalize}}%</span></li>
+            <li><span class="label label-danger">
+              Suspensos: {{ info_resultados_academicos.evaluacion|sub:info_resultados_academicos.rendimiento|unlocalize }}%
+            </span></li>
+            <li><span class="label label-warning">No presentados: {{ 100|sub:info_resultados_academicos.evaluacion|unlocalize }}%</span></li>
+          </ul>
+                           
+          <div class="progress left">
+            <div class="progress-bar progress-bar-success" style="width: {{info_resultados_academicos.rendimiento|unlocalize}}%"></div>
+            <div class="progress-bar progress-bar-danger" style="width: {{ info_resultados_academicos.evaluacion|sub:info_resultados_academicos.rendimiento|unlocalize }}%"></div>
+            <div class="progress-bar progress-bar-warning" style="width: {{ 100|sub:info_resultados_academicos.evaluacion|unlocalize }}%"></div>
           </div>
 
-        </div>
+        {% endif %}
         <hr class="m-y-2">
         <h4>Tasa de abandono: </h4>
-        <p>{{foo.abandono}}%</p>
+        {% if info_resultados_academicos == None %}
+          <p>No hay resultados registrados para esta titulación</p>
+        {% else %}
+          <p>{{info_resultados_academicos.abandono}}%</p>
+        {% endif %}
         <hr class="m-y-2">
         <h4>Media de la satisfacción global de los estudiantes con el estudio, según las encuestas de evaluación docente: </h4>
-        <p>{{foo.grao_satisfaccion}}</p>
-
+        {% if info_resultados_encuestas == None %}
+          <p>No hay resultados registrados para esta titulación</p>
+        {% else %}
+          <p>{{info_resultados_encuestas.grao_satisfaccion}}</p>
+        {% endif %}
         <hr class="m-y-2">
         <h4>Media de la satisfacción global de los estudiantes con el estudio, según la puntuación en esta herramienta: </h4>
         <p id="avg"></p>
+
         <script type="text/javascript">
           var avg_rate = localStorage.getItem('avg'); 
-          document.getElementById("avg").innerHTML = avg_rate; 
+          if (avg_rate > 0) {
+            document.getElementById("avg").innerHTML = avg_rate; 
+          }
+          else {
+            document.getElementById("avg").innerHTML = 'No hay resultados registrados para esta titulación'; 
+          }
         </script>
         
       </div>
     </div>
   </div>
   
-{% endfor %}
-
 {% endblock%}
 
 {% block script%}

@@ -14,12 +14,17 @@ from django.db import models
 
 class Asignaturas(models.Model):
     codigo_asignatura = models.CharField(primary_key=True, max_length=25)
-    nombre = models.CharField(max_length=100, blank=True, null=True)
+    nombre_asignatura = models.CharField(max_length=250, blank=True, null=True)
     guia_docente = models.CharField(max_length=150, blank=True, null=True)
+    curso = models.SmallIntegerField(blank=True, null=True)
+    regimen = models.CharField(max_length=100, blank=True, null=True)
+    cuatrimestre = models.CharField(max_length=50, blank=True, null=True)
+    creditos = models.SmallIntegerField(blank=True, null=True)
+    mencion = models.CharField(max_length=150, blank=True, null=True)
     codigo_titulacion = models.ForeignKey('Titulaciones', models.DO_NOTHING, db_column='codigo_titulacion', blank=True, null=True)
 
     def __unicode__(self): 
-        return self.nombre
+        return self.nombre_asignatura
 
     class Meta:
     	managed= False
@@ -27,13 +32,13 @@ class Asignaturas(models.Model):
 
 
 class Centros(models.Model):
-    nombre = models.CharField(max_length=100, blank=True, null=True)
+    nombre_centro = models.CharField(max_length=100, blank=True, null=True)
     universidad = models.CharField(max_length=3, blank=True, null=True)
     campus = models.CharField(max_length=50, blank=True, null=True)
     codigo_centro = models.IntegerField(primary_key=True)
 
     def __unicode__(self): 
-        return self.nombre
+        return self.nombre_centro
 
     class Meta:
     	managed= False
@@ -54,12 +59,12 @@ class ImpartidaEn(models.Model):
 
 
 class Titulaciones(models.Model):
-    codigo_titulacion = models.CharField(primary_key=True, max_length=25)
-    nombre = models.CharField(max_length=100, blank=True, null=True)
+    codigo_titulacion = models.IntegerField(primary_key=True)
+    nombre_titulacion = models.CharField(max_length=100, blank=True, null=True)
     nota_corte = models.FloatField(blank=True, null=True)
 
     def __unicode__(self): 
-        return self.nombre
+        return self.nombre_titulacion
 
     class Meta:
     	managed= False

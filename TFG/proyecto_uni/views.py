@@ -5,10 +5,11 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_http_methods
+from django.core.exceptions import ObjectDoesNotExist
 
 from .forms import LoginForm, UserRegistrationForm
 
-from .models import Titulaciones
+from .models import Titulaciones, Tasas, Encuestas, Asignaturas
 
 
 @require_http_methods(["GET"])
@@ -73,10 +74,10 @@ def studies(request):
 	if uni == '': 
 		return render(request, 'proyecto_uni/studies.html')
 	elif uni == 'SUG':
-		result = Titulaciones.objects.raw('SELECT * FROM titulaciones tit INNER JOIN impartida_en imp ON tit.codigo_titulacion = imp.codigo_titulacion INNER JOIN centros cent ON imp.codigo_centro = cent.codigo_centro ORDER BY tit.nombre');
+		result = Titulaciones.objects.raw('SELECT * FROM titulaciones tit INNER JOIN impartida_en imp ON tit.codigo_titulacion = imp.codigo_titulacion INNER JOIN centros cent ON imp.codigo_centro = cent.codigo_centro ORDER BY tit.nombre_titulacion');
 		return render(request, 'proyecto_uni/showstudies.html', {'result':result})
 	else:
-		result = Titulaciones.objects.raw('SELECT * FROM titulaciones tit INNER JOIN impartida_en imp ON tit.codigo_titulacion = imp.codigo_titulacion INNER JOIN centros cent ON imp.codigo_centro = cent.codigo_centro WHERE cent.universidad = %s ORDER BY tit.nombre', [uni]);
+		result = Titulaciones.objects.raw('SELECT * FROM titulaciones tit INNER JOIN impartida_en imp ON tit.codigo_titulacion = imp.codigo_titulacion INNER JOIN centros cent ON imp.codigo_centro = cent.codigo_centro WHERE cent.universidad = %s ORDER BY tit.nombre_titulacion', [uni]);
 		return render(request, 'proyecto_uni/showstudies.html', {'result':result})
 
 @require_http_methods(["GET"])
@@ -84,11 +85,28 @@ def details(request):
 	estudio = request.GET.get('estudio', '')
 	uni = request.GET.get('uni', '')
 	campus = request.GET.get('campus', '')
-	rate = Titulaciones.objects.raw('SELECT ')
-	result = Titulaciones.objects.raw('SELECT * FROM encuestas e INNER JOIN tasas t on e.codigo_titulacion = t.codigo_titulacion INNER JOIN titulaciones tit on t.codigo_titulacion = tit.codigo_titulacion INNER JOIN impartida_en imp ON tit.codigo_titulacion = imp.codigo_titulacion INNER JOIN centros cent ON imp.codigo_centro = cent.codigo_centro WHERE cent.universidad = %s  and tit.nombre = %s and cent.campus =%s', [uni, estudio, campus]);
-	for foo in result: 
-		rate= Titulaciones.objects.get(pk=foo.codigo_titulacion)
+	rate = None
+	info_general = get_general_info(uni, estudio, campus)[0]
+	pk = info_general.codigo_titulacion
+	try:
+		info_resultados_academicos = Tasas.objects.get(codigo_titulacion=pk)
+	except ObjectDoesNotExist:
+		info_resultados_academicos = None
+	try:
+		info_resultados_encuestas = Encuestas.objects.get(codigo_titulacion=pk)
+	except ObjectDoesNotExist:
+		info_resultados_encuestas = None
+	try:
+		info_asignaturas = Asignaturas.objects.filter(codigo_titulacion=pk)
+		info_asignaturas = info_asignaturas.order_by('cuatrimestre')
+	except ObjectDoesNotExist:
+		info_resultados_encuestas = None
+	rate = Titulaciones.objects.get(pk=pk)
 		# asignaturas= Asignaturas.objects.get ('SELECT * from asignaturas INNER JOIN titulaciones on asignaturas.codigo_titulacion = titulaciones.codigo_titulacion where codigo_titulacion = foo.codigo_titulacion'); 
-	return render(request, 'proyecto_uni/details.html', {'result':result, 'rate':rate}) #, 'asignaturas':asignaturas})
+	return render(request, 'proyecto_uni/details.html', {'info_general':info_general, 'rate':rate, 'info_resultados_academicos':info_resultados_academicos, 'info_resultados_encuestas': info_resultados_encuestas, 'info_asignaturas': info_asignaturas})
+
+def get_general_info(uni, estudio, campus): 
+	return Titulaciones.objects.raw('SELECT * FROM titulaciones tit INNER JOIN impartida_en imp ON tit.codigo_titulacion = imp.codigo_titulacion INNER JOIN centros cent ON imp.codigo_centro = cent.codigo_centro WHERE cent.universidad = %s  and tit.nombre_titulacion = %s and cent.campus =%s', [uni, estudio, campus])
+
 
 
