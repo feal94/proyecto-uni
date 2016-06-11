@@ -62,6 +62,8 @@ class Titulaciones(models.Model):
     codigo_titulacion = models.IntegerField(primary_key=True)
     nombre_titulacion = models.CharField(max_length=100, blank=True, null=True)
     nota_corte = models.FloatField(blank=True, null=True)
+    categoria = models.CharField(max_length=100, blank=True, null=True)
+    descripcion = models.TextField(blank=True, null=True)
 
     def __unicode__(self): 
         return self.nombre_titulacion
@@ -76,7 +78,7 @@ class Encuestas(models.Model):
     grao_satisfaccion = models.FloatField(blank=True, null=True)
 
     def __unicode__(self): 
-        return self.ano_encuestas + ' ' + self.codigo_titulacion
+        return 'Encuestas ' + self.codigo_titulacion.nombre_titulacion + ' ' +self.ano_encuestas
 
     class Meta:
     	managed= False
@@ -92,7 +94,7 @@ class Tasas(models.Model):
     abandono = models.FloatField(blank=True, null=True)
 
     def __unicode__(self): 
-        return  self.codigo_titulacion + ' año ' + self.ano_tasas 
+        return 'Tasas ' + self.codigo_titulacion.nombre_titulacion + ' ' +self.ano_tasas
 
     class Meta:
     	managed= False

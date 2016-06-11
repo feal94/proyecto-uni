@@ -12,5 +12,6 @@ urlpatterns = [
     url(r'^contact', views.contact, name='contact'),
     url(r'^studies.*', views.studies, name='studies'),
     url(r'^details.*', views.details, name='details'),
+    url(r'^search.*', views.search, name='search'),
     url(r'^ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),
 ]
