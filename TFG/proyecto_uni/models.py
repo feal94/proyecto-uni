@@ -45,6 +45,7 @@ class Centros(models.Model):
         db_table = 'centros'
 
 
+
 class ImpartidaEn(models.Model):
     codigo_centro = models.ForeignKey(Centros, models.DO_NOTHING, db_column='codigo_centro')
     codigo_titulacion = models.ForeignKey('Titulaciones', models.DO_NOTHING, db_column='codigo_titulacion')
@@ -64,6 +65,7 @@ class Titulaciones(models.Model):
     nota_corte = models.FloatField(blank=True, null=True)
     categoria = models.CharField(max_length=100, blank=True, null=True)
     descripcion = models.TextField(blank=True, null=True)
+    periodo = models.CharField(max_length=50, blank=True, null=True)
 
     def __unicode__(self): 
         return self.nombre_titulacion
@@ -100,3 +102,9 @@ class Tasas(models.Model):
     	managed= False
         db_table = 'tasas'
         unique_together = (('codigo_titulacion', 'ano_tasas'),)
+
+class Comment(models.Model):
+    codigo_titulacion= models.ForeignKey('Titulaciones',db_column='codigo_titulacion', blank=True, null=True, related_name='comments')
+    nombre_usuario = models.CharField(max_length=80)
+    comentario = models.TextField()
+    

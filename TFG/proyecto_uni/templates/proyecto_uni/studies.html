@@ -1,30 +1,31 @@
 {% extends "base.html" %} 
 {% block content %}
+{% load static %}
 <div class="row">
   	<div class="col-lg-3">
-	  	<div class="jumbotron" align="center" >
-	  		<h1>UDC</h1>
+	  	<div class="jumbotron container-fluid"  align="center" >
+	  		<img class="img-responsive" style="height:100px;" src="{% static "images/udc.png" %}" alt="UDC"> 
 	  		<hr class="m-y-2">
 	  		<p><a class="btn btn-primary btn-lg" href="studies/?uni=UDC" role="button">Mostrar más</a></p>
 	  	</div>
   	</div>
 	  <div class="col-lg-3">
-	  	<div class= "jumbotron" align="center" >
-	  		<h1>USC</h1>
+	  	<div class= "jumbotron container-fluid" align="center" >
+	  		<img class="img-responsive" style="height:100px" src="{% static "images/usc.jpg" %}" alt="USC">
 	  		<hr class="m-y-2">
 	  		<p><a class="btn btn-primary btn-lg" href="studies/?uni=USC" role="button">Mostrar más</a></p>
 	  	</div>
 	</div>
 	 <div class="col-lg-3">
-	  	<div class="jumbotron" align="center" >
-	  		<h1>UVigo</h1>
+	  	<div class="jumbotron container-fluid" align="center" >
+	  		<img class="img-responsive" style="height:100px;" src="{% static "images/uvigo.jpg" %}" alt="Uvigo">
 	  		<hr class="m-y-2">
 	  		<p><a class="btn btn-primary btn-lg" href="studies/?uni=Uvigo" role="button">Mostrar más</a></p>
 	  	</div>  
 	</div>
 	<div class="col-lg-3">
-		<div class="jumbotron" align="center" >
-			<h1>SUG</h1>
+		<div class="jumbotron container-fluid" align="center" >
+			<img class="img-responsive" style="height:100px;" src="{% static "images/sug.png" %}" alt="SUG">
 			<hr class="m-y-2">
 	  		<p><a class="btn btn-primary btn-lg" href="studies/?uni=SUG" role="button">Mostrar más</a></p>
 	  	</div>

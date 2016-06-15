@@ -4,7 +4,7 @@ from django.db.models import Q
 
 def get_general_info(uni, estudio, campus): 
 	general_info = filter_by_campus(campus, None)
-	return filter_by_estudio(estudio, general_info)
+	return filter_by_estudio(estudio, general_info, True)
 
 def get_rest_info(info_general, list): 
 	#list is zero when there's only one titulacion
@@ -48,18 +48,24 @@ def get_resultados_encuestas_info(titulaciones):
 	titulaciones_list = titulaciones.values('codigo_titulacion')
 	return Encuestas.objects.filter(codigo_titulacion__in= titulaciones_list)
 
-def get_search_info(universidad, estudio, area):
+def get_search_info(universidad, estudio, area, accion, nota, accion2, abandono):
 	result = None
 	if estudio:
-		result =  filter_by_estudio(estudio, result)
+		result =  filter_by_estudio(estudio, result, False)
+		if result is None: #Si la búsqueda falla no seguimos
+			return None
 	if len(universidad) > 0:
 		result = filter_by_universidad(universidad, result)
-	if len(area) > 0: 
-		result = filter_by_area(area, result)		
+	if area and (len(area) > 0): 
+		result = filter_by_area(area, result)
+	if accion and nota: 
+		result = filter_by_nota(accion, nota, result)	
+	if accion2 and abandono:
+		result = filter_by_abandono(accion2, abandono, result)	
 	return result
 
 def filter_by_universidad(universidad, qs): 
-	if qs: 
+	if qs is not None: 
 		titulaciones = qs
 	else: 
 		titulaciones = Titulaciones.objects
@@ -67,35 +73,64 @@ def filter_by_universidad(universidad, qs):
 	if len(universidad) == 1: 
 		return titulaciones.filter(impartidaen__codigo_centro__universidad=universidad[0])
 	elif len(universidad) == 2: 
-		return titulaciones.filter(Q(impartidaen__codigo_centro__universidad=universidad[0]) | Q(impartidaen__codigo_centro__universidadh=universidad[1]))
+		return titulaciones.filter(Q(impartidaen__codigo_centro__universidad=universidad[0]) | Q(impartidaen__codigo_centro__universidad=universidad[1]))
 	else: 
 		return titulaciones
 
 def filter_by_campus(campus, qs): 
-	if qs: 
+	if qs is not None: 
 		return qs.filter(impartidaen__codigo_centro__universidad__campus = campus)
 	else: 
 		return Titulaciones.objects.filter(impartidaen__codigo_centro__campus = campus)
 
-def filter_by_estudio(estudio, qs): 
-	if qs: 
-		return qs.filter(nombre_titulacion=estudio)
+def filter_by_estudio(estudio, qs, exact):
+	if qs is not None: 
+		titulaciones = qs
+	else: 
+		titulaciones = Titulaciones.objects 
+
+	if exact: 
+		return titulaciones.filter(nombre_titulacion=estudio)
 	else:
-		return Titulaciones.objects.filter(nombre_titulacion=estudio)
+		return titulaciones.filter(nombre_titulacion__icontains=estudio)
 
 def filter_by_area(area, qs): 
-	if qs: 
+	if qs is not None: 
+		titulaciones = qs
+	else: 
+		titulaciones = Titulaciones.objects
+	if len(area) == 1: 
+		return titulaciones.filter(categoria__iexact=area[0])
+	elif len(area) == 2:
+		return titulaciones.filter(Q(categoria__iexact=area[0]) | Q(categoria__iexact=area[1])) 
+	elif len(area) == 3: 
+		return titulaciones.filter(Q(categoria__iexact=area[0]) | Q(categoria__iexact=area[1]) | Q(categoria__iexact=area[2]))
+	elif len(area) == 4: 
+		return titulaciones.filter(Q(categoria__iexact=area[0]) | Q(categoria__iexact=area[1]) | Q(categoria__iexact=area[2]) | Q(categoria__iexact=area[3]))
+	else: 
+		return titulaciones
+
+def filter_by_nota(accion, nota, qs):  
+	if qs is not None: 
 		titulaciones = qs
 	else: 
 		titulaciones = Titulaciones.objects
 
-	if len(area) == 1: 
-		return titulaciones.filter(area_de_conocimiento=area[0])
-	elif len(area) == 2:
-		return titulaciones.filter(Q(area_de_conocimiento=area[0]) | Q(area_de_conocimiento=area[1])) 
-	elif len(area) == 3: 
-		return titulaciones.filter(Q(area_de_conocimiento=area[0]) | Q(area_de_conocimiento=area[1]) | Q(area_de_conocimiento=area[2]))
-	elif len(area) == 4: 
-		return titulaciones.filter(Q(area_de_conocimiento=area[0]) | Q(area_de_conocimiento=area[1]) | Q(area_de_conocimiento=area[2]) | Q(area_de_conocimiento=area[3]))
+	if accion == '>=': 
+		return titulaciones.filter(nota_corte__gte=nota)
+	if accion == '<=': 
+		return titulaciones.filter(nota_corte__lte=nota)
+	if accion == '=': 
+		return titulaciones.filter(nota_corte=nota)
+
+def filter_by_abandono(accion, abandono, qs):
+	if qs is not None: 
+		titulaciones = qs
 	else: 
-		return titulaciones
+		titulaciones = Titulaciones.objects
+	if accion == '>=': 
+		return titulaciones.filter(tasas__abandono__gte=abandono)
+	if accion == '<=': 
+		return titulaciones.filter(tasas__abandono__lte=abandono)
+	if accion == '=': 
+		return titulaciones.filter(tasas__abandono=abandono)

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+<h1>Comparador</h1>
+<p>Por favor, escoja los estudios a comparar</p>
+<form action="./compare" method="post">
+    {% crispy campus_form%}
+    {% crispy estudio_form%}
+</form>
+</div>
+{% endblock %}

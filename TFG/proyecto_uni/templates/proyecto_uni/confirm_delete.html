@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron" align="center" >
+<div class="container">
+ 	<h5>¿Estás seguro de que quieres borrar tu comentario?</h5>
+	<div class="btn-group" role="group" aria-label="...">
+	    <button type="button" onclick="window.history.back();" class="btn-md btn-default">No</button>
+		<button type="button" onclick="location.href='/proyecto_uni/comment/confirm?pk={{pk}}'" class="btn-md btn-danger">Sí</button>
+	</div>
+</div>
+</div>
+{% endblock %}

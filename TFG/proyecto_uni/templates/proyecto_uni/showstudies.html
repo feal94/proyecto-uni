@@ -2,10 +2,8 @@
 {% block content %}
 
 <ul class="list-group">
-	{% for general in info_general %}
-	{% for universidad in info_universidad %}
-		<li class="list-group-item"><a href="/proyecto_uni/details?uni={{foo.universidad}}&estudio={{foo.nombre_titulacion}}&campus={{foo.campus}}" >{{ general.nombre_titulacion  }} en el {{ universidad.campus }} de la {{ universidad.universidad }}</a></li>
-	{% endfor %}
+	{% for general, universidad in result %}
+		<li class="list-group-item"><a href="/proyecto_uni/details?uni={{universidad.universidad}}&estudio={{general.nombre_titulacion}}&campus={{universidad.campus}}" >{{ general.nombre_titulacion}} en el {{ universidad.campus }} de la {{ universidad.universidad }}</a></li>
 	{% endfor %}
 </ul>
 {% endblock %}

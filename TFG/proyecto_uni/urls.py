@@ -13,5 +13,10 @@ urlpatterns = [
     url(r'^studies.*', views.studies, name='studies'),
     url(r'^details.*', views.details, name='details'),
     url(r'^search.*', views.search, name='search'),
+    url(r'^compare', views.choose_studies, name='compare'),
+    url(r'^comment/post.*', views.comment, name='comment'),
+    url(r'^comment/edit.*', views.edit_comment, name='edit'),
+    url(r'^comment/delete.*', views.delete_comment, name='delete'),  
+    url(r'^comment/confirm.*', views.delete_confirm, name='confirm'), 
     url(r'^ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),
 ]

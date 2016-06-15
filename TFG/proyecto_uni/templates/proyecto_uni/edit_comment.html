@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="container">
+<h1>Editar un comentario</h1>
+<p>Por favor, complete el formulario para editar su comentario</p>
+<form action="./edit_comment" method="post">
+    <div class="form-group">
+    {{ comment_form|crispy }}
+    {% csrf_token %}
+    </div>
+    <button class="btn btn-primary " type="submit">Enviar</button>
+</form>
+</div>
+
+{% endblock %}

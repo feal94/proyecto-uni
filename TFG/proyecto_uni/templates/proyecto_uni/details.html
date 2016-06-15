@@ -6,6 +6,7 @@
     <li role="presentation"><a href="#tab1" >General</a></li>
     <li role="presentation"><a href="#tab2">Asignaturas</a></li>
     <li role="presentation"><a href="#tab3">Resultados</a></li>
+    <li role="presentation"><a href="#tab4">Comentarios</a></li>
   </ul>
 
   <!-- TAB 1 --> 
@@ -30,11 +31,18 @@
         <p style=" text-align: justify ">{{info_general.descripcion}}</p>
         <hr class="m-y-2">
         <h4>Nota de corte:</h4>
-        <p>{{ info_general.nota_corte }}</p>
+        <p>{{ info_general.nota_corte }} en {{ info_general.periodo }} de 2015</p>
         <hr class="m-y-2">
         <h4>¿Has estudiado esta carrera? Dános tu valoración:</h4>
         {% load ratings %}
         {% ratings rate %} 
+        <hr class="m-y-2">
+        <h4>Coméntanos tu experiencia:</h4>
+        {% if request.user.is_authenticated %}
+        <a href="/proyecto_uni/comment/post?pk={{info_general.codigo_titulacion}}"><i class="fa fa-2x fa-comment" aria-hidden="true"></i></a>
+        {% else %}
+          <p>Necesitas iniciar sesión para dejar un comentario</p>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -164,15 +172,15 @@
         {% else %}
           <ul class="list-unstyled" >
             <li >
-              <span class="label label-success">Aprobados: {{info_resultados_academicos.rendimiento|unlocalize}}%</span>
+              <h4><span class="label label-success">Aprobados: {{info_resultados_academicos.rendimiento|unlocalize}}%</span></h4>
             </li>
             <br>
             <li >
-              <span class="label label-danger">Suspensos: {{ info_resultados_academicos.evaluacion|sub:info_resultados_academicos.rendimiento|unlocalize }}%</span>
+              <h4><span class="label label-danger">Suspensos: {{ info_resultados_academicos.evaluacion|sub:info_resultados_academicos.rendimiento|unlocalize }}%</span></h4>
             </li>
             <br>
             <li >
-              <span class="label label-warning">No presentados: {{ 100|sub:info_resultados_academicos.evaluacion|unlocalize }}%</span>
+              <h4><span class="label label-warning">No presentados: {{ 100|sub:info_resultados_academicos.evaluacion|unlocalize }}%</span></h4>
             </li>
           </ul>
            <hr>                
@@ -206,7 +214,7 @@
         <script type="text/javascript">
           var avg_rate = localStorage.getItem('avg'); 
           if (avg_rate > 0) {
-            document.getElementById("avg").innerHTML = avg_rate; 
+            document.getElementById("avg").innerHTML = avg_rate + ' sobre 5'; 
           }
           else {
             document.getElementById("avg").innerHTML = 'No hay resultados registrados para esta titulación'; 
@@ -214,6 +222,35 @@
         </script>
         
       </div>
+    </div>
+  </div>
+
+  <div id="tab4">
+    <div class="panel panel-primary">
+      <div class="panel-heading">{{info_general.nombre_titulacion}}</div>
+        <div class="panel-body">
+        {% if comments.count > 0 %}
+          <ul class="list-group">
+          {% for comment in comments%}    
+            <h4>Comentario de {{ comment.nombre_usuario }}:</h4>
+            <p>{{ comment.comentario }}</p>
+            {% if comment.nombre_usuario == request.user.username %}
+            <div class="btn-group" role="group">
+              <a href="/proyecto_uni/comment/edit?pk={{ info_general.codigo_titulacion }}">
+                <i class=" btn fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+              </a>
+              <a href="/proyecto_uni/comment/delete?pk={{ info_general.codigo_titulacion }}">
+                <i class=" btn fa fa-eraser fa-2x" aria-hidden="true"></i>
+              </a>
+            </div>
+            {% endif %}
+          {% endfor %}
+          </ul>
+          {% else %}
+            <p> Aún no hay comentarios para este estudio</p>
+          {% endif %}
+        </div>
+      </div> 
     </div>
   </div>
   
