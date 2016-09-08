@@ -24,7 +24,7 @@
 	  <div class="container-fluid">
 	    <div class="navbar-header">
             {% if request.user.is_authenticated %}
-            <button type="button" class="btn btn-default navbar-btn pull-right" onclick="location.href='logout'">Log Out</button>
+            <button type="button" class="btn btn-default navbar-btn pull-right" onclick="location.href='/proyecto_uni/logout'">Log Out</button>
             <p class="navbar-text pull-right">Sesión iniciada como {{ request.user.get_username }}</p>
             {% else %}
             <button type="button" class="btn btn-default navbar-btn pull-right" onclick="location.href='/proyecto_uni/signup'">Crear usuario</button>

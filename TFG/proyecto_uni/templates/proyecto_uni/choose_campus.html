@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+<h1>Comparador [Paso 1 de 2] </h1>
+<p>Por favor, escoja los campos de los estudios a comparar</p>
+    <form role="form" action="./compare" method="post">
+    <div class="form-group">
+    	<label for="campus1">Escoja el campus del primer estudio:</label>
+    	<select class="form-control" name="campus1">
+    		<option>----------</option>
+	        <option>Campus de Coruña</option>
+	        <option>Campus de Ferrol</option>
+	        <option>Campus de Santiago</option>
+	        <option>Campus de Lugo</option>
+	        <option>Campus de Vigo</option>
+	        <option>Campus de Pontevedra</option>
+	        <option>Campus de Ourense</option>
+        </select>
+      <br>
+      <label for="campus2">Escoja el campus del segundo estudio:</label>
+    	<select class="form-control" name="campus2">
+    		<option>----------</option>
+	        <option>Campus de Coruña</option>
+	        <option>Campus de Ferrol</option>
+	        <option>Campus de Santiago</option>
+	        <option>Campus de Lugo</option>
+	        <option>Campus de Vigo</option>
+	        <option>Campus de Pontevedra</option>
+	        <option>Campus de Ourense</option>
+        </select>
+        <br>
+    	<label for="campus3">Escoja el campus del tercer estudio</label>
+    	<select class="form-control" name="campus3">
+    		<option>----------</option>
+	        <option>Campus de Coruña</option>
+	        <option>Campus de Ferrol</option>
+	        <option>Campus de Santiago</option>
+	        <option>Campus de Lugo</option>
+	        <option>Campus de Vigo</option>
+	        <option>Campus de Pontevedra</option>
+	        <option>Campus de Ourense</option>
+        </select>
+        {% csrf_token %}
+    </div>
+      <button type="submit" class="btn btn-primary">Ir a escoger titulación</button>
+  </form>
+</div>
+{% endblock %}

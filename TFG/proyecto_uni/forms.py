@@ -1,4 +1,21 @@
 # -*- coding: utf-8 -*-
+
+# Copyright 2016 Alvaro Feal 
+# This program is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+
+#     This program is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+
+#     You should have received a copy of the GNU General Public License
+#     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
 from django import forms 
 from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
@@ -25,7 +42,6 @@ ACCION_CHOICES = (
     ('<=', '<='),
     ('=', '='),
 )
-
 
 class LoginForm(forms.Form): 
 	username = forms.CharField(label='Usuario')
@@ -98,15 +114,10 @@ class CommentForm(forms.ModelForm):
 		widgets = {'codigo_titulacion': forms.HiddenInput()}
 
 class CompareTitulacionForm(forms.ModelForm):
-	titulacion = forms.ModelChoiceField(queryset=Titulaciones.objects)
+	def __init__(self, campus, *args, **kwargs):
+		super(CompareTitulacionForm, self).__init__(*args, **kwargs)
+		self.fields['nombre_titulacion'] = forms.ModelChoiceField(queryset=Titulaciones.objects.filter(impartidaen__codigo_centro__campus=campus).order_by('nombre_titulacion'))
 
 	class Meta: 
 		model = Titulaciones
-		fields = ('titulacion',)
-
-class CompareUniversidadForm(forms.ModelForm):
-	campus = forms.ModelChoiceField(queryset=Centros.objects, to_field_name="campus")
-
-	class Meta: 
-		model = Centros
-		fields = ('campus',)
+		fields = ('nombre_titulacion',)

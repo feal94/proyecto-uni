@@ -18,4 +18,6 @@ DATABASES = {
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False 
 
+ALLOWED_HOSTS = ['localhost']
+
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'

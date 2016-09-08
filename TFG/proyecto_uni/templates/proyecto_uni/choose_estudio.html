@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+<h1>Comparador [Paso 2 de 2] </h1>
+<p>Por favor, escoja los campos de los estudios a comparar</p>
+    <form role="form" action="./show_compare" method="post">
+    <div class="form-group">
+    	{% if tit1 != None %}
+    	{{ tit1|crispy }}
+    	{% endif %}
+    	{% if tit2 != None %}
+    	{{ tit2|crispy }}
+    	{% endif %}
+    	{% if tit3 != None %}
+    	{{ tit3|crispy }}
+    	{% endif %}
+    	{% csrf_token %}
+    </div>
+      <button type="submit" class="btn btn-primary">Comparar</button>
+  </form>
+</div>
+{% endblock %}

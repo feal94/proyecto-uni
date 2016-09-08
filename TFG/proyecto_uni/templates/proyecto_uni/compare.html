@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if info1 != None %}
+<div class="panel panel-primary">
+<!-- Default panel contents -->
+
+<div class="panel-heading">{{info1.info_general.nombre_titulacion}}</div>
+  <div class="panel-body">
+    <h4>Universidad:</h4>
+    <p>{{ info1.info_universidad.universidad }}</p>
+    <hr class="m-y-2">
+    <h4>Campus:</h4>  
+    <p>{{ info1.info_universidad.campus }}</p>
+    <hr class="m-y-2">
+    <h4>Facultad:</h4>  
+    <p>{{ info1.info_universidad.nombre_centro }}</p>
+    <hr class="m-y-2"> 
+    <h4>Área de conocimiento:</h4>
+    <p>{{info1.info_general.categoria}}</p>  
+    <hr class="m-y-2">     
+    <h4>Nota de corte:</h4>
+    <p>{{ info1.info_general.nota_corte }} en {{ info1.info_general.periodo }} de 2015</p>
+    <hr class="m-y-2">     
+    {% load l10n %}
+    {% load mathfilters %}
+        <h4>Media de los indicadores académicos para el estudio:</h4>
+        {% if info1.info_tasas == None %}
+          <p>No hay resultados registrados para esta titulación</p>
+        {% else %}
+          <ul class="list-unstyled" >
+            <li >
+              <h4><span class="label label-success">Aprobados: {{info1.info_tasas.rendimiento|unlocalize}}%</span></h4>
+            </li>
+            <br>
+            <li >
+              <h4><span class="label label-danger">Suspensos: {{ info1.info_tasas.evaluacion|sub:info1.info_tasas.rendimiento|unlocalize }}%</span></h4>
+            </li>
+            <br>
+            <li >
+              <h4><span class="label label-warning">No presentados: {{ 100|sub:info1.info_tasas.evaluacion|unlocalize }}%</span></h4>
+            </li>
+          </ul>
+           <hr>                
+          <div class="progress left">
+            <div class="progress-bar progress-bar-success" style="width: {{info1.info_tasas.rendimiento|unlocalize}}%"></div>
+            <div class="progress-bar progress-bar-danger" style="width: {{ info1.info_tasas.evaluacion|sub:info1.info_tasas.rendimiento|unlocalize }}%"></div>
+            <div class="progress-bar progress-bar-warning" style="width: {{ 100|sub:info1.info_tasas.evaluacion|unlocalize }}%"></div>
+          </div>
+
+        {% endif %}
+        <hr class="m-y-2">
+        <h4>Tasa de abandono: </h4>
+        {% if info1.info_tasas == None %}
+          <p>No hay resultados registrados para esta titulación</p>
+        {% else %}
+          <p>{{info1.info_tasas.abandono}}%</p>
+        {% endif %}
+  </div>
+</div>
+{%  endif %}
+
+{% if info2 != None %}
+<div class="panel panel-primary">
+<!-- Default panel contents -->
+
+<div class="panel-heading">{{info2.info_general.nombre_titulacion}}</div>
+  <div class="panel-body">
+    <h4>Universidad:</h4>
+    <p>{{ info2.info_universidad.universidad }}</p>
+    <hr class="m-y-2">
+    <h4>Campus:</h4>  
+    <p>{{ info2.info_universidad.campus }}</p>
+    <hr class="m-y-2">
+    <h4>Facultad:</h4>  
+    <p>{{ info2.info_universidad.nombre_centro }}</p>
+    <hr class="m-y-2"> 
+    <h4>Área de conocimiento:</h4>
+    <p>{{info2.info_general.categoria}}</p>  
+    <hr class="m-y-2">     
+    <h4>Nota de corte:</h4>
+    <p>{{ info2.info_general.nota_corte }} en {{ info2.info_general.periodo }} de 2015</p>
+    <hr class="m-y-2">     
+    {% load l10n %}
+    {% load mathfilters %}
+        <h4>Media de los indicadores académicos para el estudio:</h4>
+        {% if info2.info_tasas == None %}
+          <p>No hay resultados registrados para esta titulación</p>
+        {% else %}
+          <ul class="list-unstyled" >
+            <li >
+              <h4><span class="label label-success">Aprobados: {{info2.info_tasas.rendimiento|unlocalize}}%</span></h4>
+            </li>
+            <br>
+            <li >
+              <h4><span class="label label-danger">Suspensos: {{ info2.info_tasas.evaluacion|sub:info2.info_tasas.rendimiento|unlocalize }}%</span></h4>
+            </li>
+            <br>
+            <li >
+              <h4><span class="label label-warning">No presentados: {{ 100|sub:info2.info_tasas.evaluacion|unlocalize }}%</span></h4>
+            </li>
+          </ul>
+           <hr>                
+          <div class="progress left">
+            <div class="progress-bar progress-bar-success" style="width: {{info2.info_tasas.rendimiento|unlocalize}}%"></div>
+            <div class="progress-bar progress-bar-danger" style="width: {{ info2.info_tasas.evaluacion|sub:info2.info_tasas.rendimiento|unlocalize }}%"></div>
+            <div class="progress-bar progress-bar-warning" style="width: {{ 100|sub:info2.info_tasas.evaluacion|unlocalize }}%"></div>
+          </div>
+
+        {% endif %}
+        <hr class="m-y-2">
+        <h4>Tasa de abandono: </h4>
+        {% if info2.info_tasas == None %}
+          <p>No hay resultados registrados para esta titulación</p>
+        {% else %}
+          <p>{{info2.info_tasas.abandono}}%</p>
+        {% endif %}
+  </div>
+</div>
+{%  endif %}
+{% if info3 != None %}
+<div class="panel panel-primary">
+<!-- Default panel contents -->
+
+<div class="panel-heading">{{info3.info_general.nombre_titulacion}}</div>
+  <div class="panel-body">
+    <h4>Universidad:</h4>
+    <p>{{ info3.info_universidad.universidad }}</p>
+    <hr class="m-y-2">
+    <h4>Campus:</h4>  
+    <p>{{ info3.info_universidad.campus }}</p>
+    <hr class="m-y-2">
+    <h4>Facultad:</h4>  
+    <p>{{ info3.info_universidad.nombre_centro }}</p>
+    <hr class="m-y-2"> 
+    <h4>Área de conocimiento:</h4>
+    <p>{{info3.info_general.categoria}}</p>  
+    <hr class="m-y-2">     
+    <h4>Nota de corte:</h4>
+    <p>{{ info3.info_general.nota_corte }} en {{ info3.info_general.periodo }} de 2015</p>
+    <hr class="m-y-2">     
+    {% load l10n %}
+    {% load mathfilters %}
+        <h4>Media de los indicadores académicos para el estudio:</h4>
+        {% if info3.info_tasas == None %}
+          <p>No hay resultados registrados para esta titulación</p>
+        {% else %}
+          <ul class="list-unstyled" >
+            <li >
+              <h4><span class="label label-success">Aprobados: {{info3.info_tasas.rendimiento|unlocalize}}%</span></h4>
+            </li>
+            <br>
+            <li >
+              <h4><span class="label label-danger">Suspensos: {{ info3.info_tasas.evaluacion|sub:info3.info_tasas.rendimiento|unlocalize }}%</span></h4>
+            </li>
+            <br>
+            <li >
+              <h4><span class="label label-warning">No presentados: {{ 100|sub:info3.info_tasas.evaluacion|unlocalize }}%</span></h4>
+            </li>
+          </ul>
+           <hr>                
+          <div class="progress left">
+            <div class="progress-bar progress-bar-success" style="width: {{info3.info_tasas.rendimiento|unlocalize}}%"></div>
+            <div class="progress-bar progress-bar-danger" style="width: {{ info3.info_tasas.evaluacion|sub:info3.info_tasas.rendimiento|unlocalize }}%"></div>
+            <div class="progress-bar progress-bar-warning" style="width: {{ 100|sub:info3.info_tasas.evaluacion|unlocalize }}%"></div>
+          </div>
+
+        {% endif %}
+        <hr class="m-y-2">
+        <h4>Tasa de abandono: </h4>
+        {% if info3.info_tasas == None %}
+          <p>No hay resultados registrados para esta titulación</p>
+        {% else %}
+          <p>{{info3.info_tasas.abandono}}%</p>
+        {% endif %}
+  </div>
+</div>
+{%  endif %}
+
+{% endblock %}

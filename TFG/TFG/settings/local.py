@@ -8,7 +8,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'TFG',
         'USER': 'alvaro',
-        'PASSWORD': 'Forzadepor94',
+        'PASSWORD': get_secret("DATABASE_PASSWD"),
         'HOST': 'localhost', 
         'PORT': '',
     }

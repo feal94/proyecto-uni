@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from .models import Titulaciones, ImpartidaEn, Centros, Asignaturas, Tasas, Encuestas
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 
 def get_general_info(uni, estudio, campus): 
 	general_info = filter_by_campus(campus, None)
 	return filter_by_estudio(estudio, general_info, True)
 
 def get_rest_info(info_general, list): 
-	#list is zero when there's only one titulacion
+	#list is false when there's only one titulacion
 	info_universidad = get_universidad_info(info_general)
 	if not list: 
 		info_universidad = info_universidad[0]
@@ -38,7 +39,7 @@ def get_universidad_info(titulaciones):
 
 def get_asignaturas_info(titulaciones):
 	titulaciones_list = titulaciones.values('codigo_titulacion')
-	return Asignaturas.objects.filter(codigo_titulacion__in=titulaciones_list).order_by('cuatrimestre')
+	return Asignaturas.objects.filter(codigo_titulacion__in=titulaciones_list).order_by('cuatrimestre','mencion')
 
 def get_resultados_academicos_info(titulaciones): 
 	titulaciones_list = titulaciones.values('codigo_titulacion')
@@ -75,7 +76,7 @@ def filter_by_universidad(universidad, qs):
 	elif len(universidad) == 2: 
 		return titulaciones.filter(Q(impartidaen__codigo_centro__universidad=universidad[0]) | Q(impartidaen__codigo_centro__universidad=universidad[1]))
 	else: 
-		return titulaciones
+		return titulaciones.filter(Q(impartidaen__codigo_centro__universidad=universidad[0]) | Q(impartidaen__codigo_centro__universidad=universidad[1]) | Q(impartidaen__codigo_centro__universidad=universidad[2]))
 
 def filter_by_campus(campus, qs): 
 	if qs is not None: 
@@ -89,7 +90,7 @@ def filter_by_estudio(estudio, qs, exact):
 	else: 
 		titulaciones = Titulaciones.objects 
 
-	if exact: 
+	if exact:  
 		return titulaciones.filter(nombre_titulacion=estudio)
 	else:
 		return titulaciones.filter(nombre_titulacion__icontains=estudio)
@@ -134,3 +135,17 @@ def filter_by_abandono(accion, abandono, qs):
 		return titulaciones.filter(tasas__abandono__lte=abandono)
 	if accion == '=': 
 		return titulaciones.filter(tasas__abandono=abandono)
+
+def get_compare_info(pk):
+	info = {'info_general':Titulaciones.objects.get(pk=pk), 'info_universidad':Centros.objects.get(impartidaen__codigo_titulacion = pk)}
+	try: 
+		info_tasas = Tasas.objects.get(codigo_titulacion=pk)
+	except ObjectDoesNotExist:
+		info_tasas = None
+	try: 
+		info_encuestas = Encuestas.objects.get(codigo_titulacion=pk)
+	except ObjectDoesNotExist:
+		info_encuestas = None
+	info['info_tasas'] = info_tasas
+	info['info_encuestas'] = info_encuestas
+	return info

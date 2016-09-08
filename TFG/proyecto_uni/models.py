@@ -7,6 +7,7 @@
 #   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+
 from __future__ import unicode_literals
 
 from django.db import models
@@ -63,6 +64,7 @@ class Titulaciones(models.Model):
     codigo_titulacion = models.IntegerField(primary_key=True)
     nombre_titulacion = models.CharField(max_length=100, blank=True, null=True)
     nota_corte = models.FloatField(blank=True, null=True)
+    plazas = models.CharField(max_length=50, blank=True, null=True)
     categoria = models.CharField(max_length=100, blank=True, null=True)
     descripcion = models.TextField(blank=True, null=True)
     periodo = models.CharField(max_length=50, blank=True, null=True)
